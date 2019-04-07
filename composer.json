@@ -1,0 +1,16 @@
+{
+    "name": "hailong/mysql_sync",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Hailong Zhao",
+            "email": "hailongzh@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "MySqlSync\\": ""
+        }
+    }
+}
