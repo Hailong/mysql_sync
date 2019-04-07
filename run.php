@@ -21,6 +21,8 @@ $rightDB = new DB(
 
 foreach (Config::TABLE_NAMES as $table => $key) {
 
+    echo PHP_EOL . 'Syncing table: ' . $table . ', with key: ' . $key . PHP_EOL;
+
     $leftTable = $leftDB->openTable($table, $key);
     $rightTable = $rightDB->openTable($table, $key);
 
@@ -54,3 +56,5 @@ foreach (Config::TABLE_NAMES as $table => $key) {
         }
     }
 }
+
+echo PHP_EOL . 'DONE' . PHP_EOL;

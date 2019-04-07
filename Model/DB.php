@@ -53,6 +53,14 @@ class DB
             return 'NULL';
         }
 
+        if (preg_match('/^0.*$/', $value)) {
+            return "'" . $this->connection->real_escape_string($value) . "'";
+        }
+
+        if (preg_match('/[a-zA-Z]+/', $value)) {
+            return "'" . $this->connection->real_escape_string($value) . "'";
+        }
+
         if (is_numeric($value)) {
             return $value;
         }
