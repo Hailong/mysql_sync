@@ -34,7 +34,7 @@ foreach (Config::TABLE_NAMES as $table => $key) {
         }
 
         if (!$rightRow) {
-            $rightDB->insert($table, $leftRow);
+            $rightDB->insert($table, $key, $leftRow);
             $leftRow = $leftTable->fetchRow();
             continue;
         }
@@ -47,7 +47,7 @@ foreach (Config::TABLE_NAMES as $table => $key) {
             $leftRow = $leftTable->fetchRow();
             $rightRow = $rightTable->fetchRow();
         } elseif ($leftRow[$key] < $rightRow[$key]) {
-            $rightDB->insert($table, $leftRow);
+            $rightDB->insert($table, $key, $leftRow);
             $leftRow = $leftTable->fetchRow();
         } else {
             $rightRow = $rightTable->fetchRow();

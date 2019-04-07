@@ -41,7 +41,7 @@ class DB
         $result = $this->connection->query($query);
 
         if (!$result) {
-            throw new \Exception("DB query failed, query: " . $query, 1);
+            echo "DB query failed, query: " . $query . PHP_EOL;
         }
 
         return $result;
@@ -64,7 +64,7 @@ class DB
         return $value;
     }
 
-    public function insert($table, $data)
+    public function insert($table, $key, $data)
     {
         $values = [];
         foreach (array_values($data) as $value) {
@@ -78,13 +78,15 @@ class DB
             implode(',', $values)
         );
 
+
         if (Config::DRY_RUN) {
-            echo 'INSERT: ' . $query . PHP_EOL;
+            echo '[INSERT] ' . $query . PHP_EOL;
             return;
         }
 
-        $result = $this->query($query);
-        $result->close();
+        echo PHP_EOL . 'Inserting to ' . $table . ', key: ' . $data[$key] . PHP_EOL;
+
+        $this->query($query);
     }
 
     public function update($table, $key, $data)
@@ -107,13 +109,15 @@ class DB
             $data[$key]
         );
 
+
         if (Config::DRY_RUN) {
-            echo 'UPDATE: ' . $query . PHP_EOL;
+            echo '[UPDATE] ' . $query . PHP_EOL;
             return;
         }
 
-        $result = $this->query($query);
-        $result->close();
+        echo PHP_EOL . 'Updating to ' . $table . ', key: ' . $data[$key] . PHP_EOL;
+
+        $this->query($query);
     }
 
     public function openTable($table, $orderBy) {
