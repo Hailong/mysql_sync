@@ -1,5 +1,6 @@
 {
     "name": "hailong/mysql_sync",
+    "description": "A very lightweight but handy MySql database diff and sync tool.",
     "type": "project",
     "homepage": "https://github.com/Hailong/mysql_sync",
     "keywords": ["database","diff","mysql","migration","sync","script"],
