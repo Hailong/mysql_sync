@@ -23,8 +23,14 @@ foreach (Config::TABLE_NAMES as $table => $key) {
 
     echo PHP_EOL . 'Syncing table: ' . $table . ', with key: ' . $key . PHP_EOL;
 
-    $leftTable = $leftDB->openTable($table, $key);
-    $rightTable = $rightDB->openTable($table, $key);
+    try {
+        $leftTable = $leftDB->openTable($table, $key);
+        $rightTable = $rightDB->openTable($table, $key);
+    } catch (\Exception $e) {
+        echo $e->getMessage() . PHP_EOL;
+        echo 'Skipping table: ' . $table . PHP_EOL;
+        continue;
+    }
 
     $leftRow = $leftTable->fetchRow();
     $rightRow = $rightTable->fetchRow();

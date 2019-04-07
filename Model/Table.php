@@ -28,7 +28,12 @@ class Table
         $this->rowsCurrentOffset = 0;
         $this->lastRowId = 0;
 
-        $this->rowsTotalNumber = $db->query('select count(*) from ' . $table)->fetch_row()[0];
+        $result = $db->query('select count(*) from ' . $table);
+        if ($result) {
+            $this->rowsTotalNumber = $result->fetch_row()[0];
+        } else {
+            throw new \Exception("Unable to open table: " . $table);
+        }
     }
 
     public function __destruct()
