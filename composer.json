@@ -1,6 +1,9 @@
 {
     "name": "hailong/mysql_sync",
     "type": "project",
+    "homepage": "https://github.com/Hailong/mysql_sync",
+    "keywords": ["database","diff","mysql","migration","sync","script"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Hailong Zhao",
