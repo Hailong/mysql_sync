@@ -19,6 +19,8 @@ class Table
     protected $rowsCurrentOffset;
     protected $lastRowId;
 
+    protected $columnTypes;
+
     function __construct($db, $table, $orderBy)
     {
         $this->db = $db;
@@ -41,6 +43,11 @@ class Table
         if ($this->result) {
             $this->result->free();
         }
+    }
+
+    public function getColumnTypes()
+    {
+        return $this->columnTypes;
     }
 
     public function fetchRow()
@@ -67,6 +74,14 @@ class Table
         $row = $this->result->fetch_assoc();
 
         if ($row) {
+            // get column types
+            if (!$this->columnTypes) {
+                $this->columnTypes = [];
+                while ($columnInfo = $this->result->fetch_field()) {
+                    $this->columnTypes[$columnInfo->name] = $columnInfo->type;
+                }
+            }
+
             $this->lastRowId = $row[$this->orderBy];
             return $row;
         } else {

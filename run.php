@@ -42,20 +42,20 @@ foreach (Config::TABLE_NAMES as $table => $key) {
         }
 
         if (!$rightRow) {
-            $rightDB->insert($table, $key, $leftRow);
+            $rightDB->insert($table, $leftTable->getColumnTypes(), $key, $leftRow);
             $leftRow = $leftTable->fetchRow();
             continue;
         }
 
         if ($leftRow[$key] == $rightRow[$key]) {
             if (array_diff_assoc($leftRow, $rightRow)) {
-                $rightDB->update($table, $key, $leftRow);
+                $rightDB->update($table, $leftTable->getColumnTypes(), $key, $leftRow);
             }
 
             $leftRow = $leftTable->fetchRow();
             $rightRow = $rightTable->fetchRow();
         } elseif ($leftRow[$key] < $rightRow[$key]) {
-            $rightDB->insert($table, $key, $leftRow);
+            $rightDB->insert($table, $leftTable->getColumnTypes(), $key, $leftRow);
             $leftRow = $leftTable->fetchRow();
         } else {
             $rightRow = $rightTable->fetchRow();

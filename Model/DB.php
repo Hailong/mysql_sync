@@ -47,36 +47,28 @@ class DB
         return $result;
     }
 
-    public function escapeValue($value)
+    public function escapeValue($type, $value)
     {
         if ($value === NULL) {
             return 'NULL';
         }
 
-        if (preg_match('/^0.*$/', $value)) {
+        if ($type >= 252 && $type <= 254) {
             return "'" . $this->connection->real_escape_string($value) . "'";
         }
 
-        if (preg_match('/[a-zA-Z]+/', $value)) {
-            return "'" . $this->connection->real_escape_string($value) . "'";
-        }
-
-        if (is_numeric($value)) {
-            return $value;
-        }
-
-        if (is_string($value)) {
-            return "'" . $this->connection->real_escape_string($value) . "'";
+        if (in_array($type, [7, 12])) {
+            return "'" . $value . "'";
         }
 
         return $value;
     }
 
-    public function insert($table, $key, $data)
+    public function insert($table, $columnTypes, $key, $data)
     {
         $values = [];
-        foreach (array_values($data) as $value) {
-            $values[] = $this->escapeValue($value);
+        foreach ($data as $name => $value) {
+            $values[] = $this->escapeValue($columnTypes[$name], $value);
         }
 
         $query = sprintf(
@@ -97,7 +89,7 @@ class DB
         $this->query($query);
     }
 
-    public function update($table, $key, $data)
+    public function update($table, $columnTypes, $key, $data)
     {
         $fields = [];
 
@@ -106,7 +98,7 @@ class DB
                 continue;
             }
 
-            $fields[] = $name . '=' . $this->escapeValue($value);
+            $fields[] = $name . '=' . $this->escapeValue($columnTypes[$name], $value);
         }
 
         $query = sprintf(
